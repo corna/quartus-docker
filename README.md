@@ -14,6 +14,22 @@ x11docker --clipboard --home --homedir <image home dir> -- "--device=/dev/bus/us
 
 The Quartus installer should start: install it somewhere in the home folder.
 
+Don't forget to add the udev rules (on the host) to allow Quartus access to the USB programmers; for example, this file
+
+```
+# USB-Blaster
+SUBSYSTEM=="usb", ATTR{idVendor}=="09fb", ATTR{idProduct}=="6001", MODE="0666"
+SUBSYSTEM=="usb", ATTR{idVendor}=="09fb", ATTR{idProduct}=="6002", MODE="0666"
+SUBSYSTEM=="usb", ATTR{idVendor}=="09fb", ATTR{idProduct}=="6003", MODE="0666"
+
+# USB-Blaster II
+SUBSYSTEM=="usb", ATTR{idVendor}=="09fb", ATTR{idProduct}=="6010", MODE="0666"
+SUBSYSTEM=="usb", ATTR{idVendor}=="09fb", ATTR{idProduct}=="6810", MODE="0666"
+```
+
+put in /etc/udev/rules.d/50-usb-blaster.rules gives full access to the USB-Blaster devices to any user.
+Use `udevadm control --reload` (and plug again the device if already plugged) to refresh the permissions.
+
 ### Run
 
 ```
